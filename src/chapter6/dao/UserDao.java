@@ -197,8 +197,7 @@ public class UserDao {
 			sql.append("    name = ?, ");
 			sql.append("    email = ?, ");
 			//passwordが入ってきてなかったら、更新対象に入れない。逆にpasswordが入ってきてたら、更新対象に入れる
-			String password = user.getPassword();
-			if (!StringUtils.isEmpty(password)) {
+			if (!StringUtils.isEmpty(user.getPassword())) {
 				sql.append("    password = ?, ");
 			}
 			sql.append("    description = ?, ");
@@ -210,11 +209,11 @@ public class UserDao {
 			ps.setString(1, user.getAccount());
 			ps.setString(2, user.getName());
 			ps.setString(3, user.getEmail());
-			if (!StringUtils.isEmpty(password)) {
+			if (!StringUtils.isBlank(user.getPassword())) {
 				ps.setString(4, user.getPassword());
 				ps.setString(5, user.getDescription());
 				ps.setInt(6, user.getId());
-			} else if (StringUtils.isEmpty(password)) {
+			} else if (StringUtils.isBlank(user.getPassword())) {
 				ps.setString(4, user.getDescription());
 				ps.setInt(5, user.getId());
 			}
