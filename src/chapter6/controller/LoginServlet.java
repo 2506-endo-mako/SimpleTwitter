@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import chapter6.beans.User;
 import chapter6.logging.InitApplication;
 import chapter6.service.UserService;
-
+//下記の"login"でtop.jspから飛んでくる
 @WebServlet(urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
 

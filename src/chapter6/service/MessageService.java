@@ -53,9 +53,10 @@ public class MessageService {
             close(connection);
         }
     }
-
+    /*
+     * selectの引数にString型のuserIdを追加
+     */
     public List<UserMessage> select() {
-
   	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
           " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
