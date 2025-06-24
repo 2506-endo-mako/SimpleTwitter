@@ -32,7 +32,7 @@ public class UserMessageDao {
 
     }
 
-    public List<UserMessage> select(Connection connection,Integer id, int LIMIT_NUM) {
+	public List<UserMessage> select(Connection connection,Integer id, int num) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
@@ -50,10 +50,17 @@ public class UserMessageDao {
             sql.append("FROM messages ");
             sql.append("INNER JOIN users ");
             sql.append("ON messages.user_id = users.id ");
-            sql.append("ORDER BY created_date DESC limit " + LIMIT_NUM);
-
+            if(id == null) {
+            //取得した結果を降順に表示する-----------リミットが1000件
+            	sql.append("ORDER BY created_date DESC limit " + num);
+            } else if (id != null) {
+            	sql.append("WHERE user_id = ? ");
+            	sql.append("ORDER BY created_date DESC limit " + num);
+            }
             ps = connection.prepareStatement(sql.toString());
-
+            if (id != null) {
+            ps.setInt(1,id);
+            }
             ResultSet rs = ps.executeQuery();
 
             List<UserMessage> messages = toUserMessages(rs);
