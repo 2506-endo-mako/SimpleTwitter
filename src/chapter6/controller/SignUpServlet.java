@@ -55,7 +55,7 @@ public class SignUpServlet extends HttpServlet {
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         List<String> errorMessages = new ArrayList<String>();
-
+//このuserは何か？→登録画面で入力した情報が入っている（request）
         User user = getUser(request);
         if (!isValid(user, errorMessages)) {
             request.setAttribute("errorMessages", errorMessages);
@@ -64,6 +64,7 @@ public class SignUpServlet extends HttpServlet {
         }
         new UserService().insert(user);
         response.sendRedirect("./");
+
     }
 
     private User getUser(HttpServletRequest request) throws IOException, ServletException {
@@ -73,46 +74,58 @@ public class SignUpServlet extends HttpServlet {
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         User user = new User();
-        user.setName(request.getParameter("name"));
-        user.setAccount(request.getParameter("account"));
-        user.setPassword(request.getParameter("password"));
-        user.setEmail(request.getParameter("email"));
-        user.setDescription(request.getParameter("description"));
-        return user;
-    }
+		user.setName(request.getParameter("name"));
+		user.setAccount(request.getParameter("account"));
+		user.setPassword(request.getParameter("password"));
+		user.setEmail(request.getParameter("email"));
+		user.setDescription(request.getParameter("description"));
+		return user;
+	}
 
-    private boolean isValid(User user, List<String> errorMessages) {
+	private boolean isValid(User user, List<String> errorMessages) {
 
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		String name = user.getName();
+		String account = user.getAccount();
+		String password = user.getPassword();
+		String email = user.getEmail();
 
-        String name = user.getName();
-        String account = user.getAccount();
-        String password = user.getPassword();
-        String email = user.getEmail();
+		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
+			errorMessages.add("名前は20文字以下で入力してください");
+		}
 
-        if (!StringUtils.isEmpty(name) && (20 < name.length())) {
-            errorMessages.add("名前は20文字以下で入力してください");
-        }
+		if (StringUtils.isEmpty(account)) {
+			errorMessages.add("アカウント名を入力してください");
+		} else if (20 < account.length()) {
+			errorMessages.add("アカウント名は20文字以下で入力してください");
+		}
 
-        if (StringUtils.isEmpty(account)) {
-            errorMessages.add("アカウント名を入力してください");
-        } else if (20 < account.length()) {
-            errorMessages.add("アカウント名は20文字以下で入力してください");
-        }
+		if (StringUtils.isEmpty(password)) {
+			errorMessages.add("パスワードを入力してください");
+		}
 
-        if (StringUtils.isEmpty(password)) {
-            errorMessages.add("パスワードを入力してください");
-        }
+		if (!StringUtils.isEmpty(email) && (50 < email.length())) {
+			errorMessages.add("メールアドレスは50文字以下で入力してください");
+		}
 
-        if (!StringUtils.isEmpty(email) && (50 < email.length())) {
-            errorMessages.add("メールアドレスは50文字以下で入力してください");
-        }
+		//アカウント名が被っている
+		//★サービスを呼び出したい
+		//登録画面で入力した情報の中のaccount
+		//----↓戻り値を受け取ってる
+		User userAccount = new UserService().select(account);
+		//戻り値を受けとる
+		if (userAccount != null) {
+			errorMessages.add("ユーザーが重複しています");
+		}
 
-        if (errorMessages.size() != 0) {
-            return false;
-        }
-        return true;
-    }
+		//エラーメッセージが0じゃなかったら(1つでもエラーメッセージがセットされていたら)
+		if (errorMessages.size() != 0) {
+			return false;
+		}
+		 return true;
+	}
 }

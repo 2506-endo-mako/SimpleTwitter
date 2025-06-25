@@ -53,9 +53,9 @@ public class UserMessageDao {
 			sql.append("INNER JOIN users ");
 			sql.append("ON messages.user_id = users.id ");
 			if (id != null) {
-				//取得した結果を降順に表示する-----------リミットが1000件
 				sql.append("WHERE user_id = ? ");
 			}
+			//取得した結果を降順に表示する-----------リミットが1000件
 			sql.append("ORDER BY created_date DESC limit " + num);
 
 			ps = connection.prepareStatement(sql.toString());

@@ -128,6 +128,15 @@ public class SettingServlet extends HttpServlet {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
 
+		User userAccount = new UserService().select(account);
+
+		//0番目に値が入っている(設定画面での更新時アカウントが重複している)と判断された中で
+		//そのユーザーのIDに一致しない場合　→　重複
+		//user.getId ()→画面上の登録されようとしてるID
+		//userAccount.getId()→DBから取ってきたID
+		if (userAccount != null &&  user.getId() != userAccount.getId()) {
+			errorMessages.add("ユーザーが重複しています");
+		}
 		if (errorMessages.size() != 0) {
 			return false;
 		}
