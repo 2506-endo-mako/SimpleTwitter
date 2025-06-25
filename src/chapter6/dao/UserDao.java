@@ -155,38 +155,38 @@ public class UserDao {
 	 */
 	public User select(Connection connection, String account) {
 
-	    PreparedStatement ps = null;
-	    try {
+		PreparedStatement ps = null;
+		try {
 
-	    	//今あるアカウントの中から重複しているかを確認するためのsql文
-	    	//usersテーブルの中からWHERE(条件指定で)アカウント(カラム)絞りでレコード(*=全ての列)を取って来る
-	        String sql = "SELECT * FROM users WHERE account = ?";
+			//今あるアカウントの中から重複しているかを確認するためのsql文
+			//usersテーブルの中からWHERE(条件指定で)アカウント(カラム)絞りでレコード(*=全ての列)を取って来る
+			String sql = "SELECT * FROM users WHERE account = ?";
 
-	        ps = connection.prepareStatement(sql);
-	        ps.setString(1, account);
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, account);
 
-	        //sql実行、実行結果はResultSet型のrsに格納
-	        ResultSet rs = ps.executeQuery();
+			//sql実行、実行結果はResultSet型のrsに格納
+			ResultSet rs = ps.executeQuery();
 
-	        //toUsers(rs)メソッドを呼出し、返って来た値(rs→user型に詰めかえたもの)をUser型のListのusersに格納
-	        List<User> users = toUsers(rs);
+			//toUsers(rs)メソッドを呼出し、返って来た値(rs→user型に詰めかえたもの)をUser型のListのusersに格納
+			List<User> users = toUsers(rs);
 
-	        //もしusersがEmptyである＝重複してない　nullで返す　★ここだけがok＝return値がnullだった時はokということになる
-	        if (users.isEmpty()) {
-	            return null;
-	        //2つ以上ある＝既にdbに2つアカウントがある(なぜだか、既に重複してしまっている)
-	        } else if (2 <= users.size()) {
-	        	//例外を投げているだけ　＝　別に画面にはメッセージとして出ない
-	        	throw new IllegalStateException("ユーザーが重複しています");
-	        //そうでなければ0番目に1つアカウントが存在する！＝1件存在する＝アカウントが重複している
-	        } else {
-	            return users.get(0);
-	        }
-	    } catch (SQLException e) {
-	        throw new SQLRuntimeException(e);
-	    } finally {
-	        close(ps);
-	    }
+			//もしusersがEmptyである＝重複してない　nullで返す　★ここだけがok＝return値がnullだった時はokということになる
+			if (users.isEmpty()) {
+				return null;
+				//2つ以上ある＝既にdbに2つアカウントがある(なぜだか、既に重複してしまっている)
+			} else if (2 <= users.size()) {
+				//例外を投げているだけ　＝　別に画面にはメッセージとして出ない
+				throw new IllegalStateException("ユーザーが重複しています");
+				//そうでなければ0番目に1つアカウントが存在する！＝1件存在する＝アカウントが重複している
+			} else {
+				return users.get(0);
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
 	}
 
 	public User select(Connection connection, int id) {

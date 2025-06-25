@@ -67,26 +67,26 @@ public class UserService {
 	 */
 	public User select(String account) {
 
-	    Connection connection = null;
-	    try {
-	    	//dbに接続するためconnectionを用意
-	        connection = getConnection();
+		Connection connection = null;
+		try {
+			//dbに接続するためconnectionを用意
+			connection = getConnection();
 
-	        //UserDaoのselectメソッドを呼出し、処理した結果をuserに格納
-	        User user = new UserDao().select(connection, account);
+			//UserDaoのselectメソッドを呼出し、処理した結果をuserに格納
+			User user = new UserDao().select(connection, account);
 
-	        commit(connection);
+			commit(connection);
 
-	        return user;
-	    } catch (RuntimeException e) {
-	        rollback(connection);
-	        throw e;
-	    } catch (Error e) {
-	        rollback(connection);
-	        throw e;
-	    } finally {
-	        close(connection);
-	    }
+			return user;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			throw e;
+		} finally {
+			close(connection);
+		}
 	}
 
 	public User select(String accountOrEmail, String password) {

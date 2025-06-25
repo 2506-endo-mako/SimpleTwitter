@@ -134,7 +134,7 @@ public class SettingServlet extends HttpServlet {
 		//そのユーザーのIDに一致しない場合　→　重複
 		//user.getId ()→画面上の登録されようとしてるID
 		//userAccount.getId()→DBから取ってきたID
-		if (userAccount != null &&  user.getId() != userAccount.getId()) {
+		if (userAccount != null && user.getId() != userAccount.getId()) {
 			errorMessages.add("ユーザーが重複しています");
 		}
 		if (errorMessages.size() != 0) {
