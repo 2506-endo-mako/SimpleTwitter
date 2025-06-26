@@ -117,7 +117,6 @@ public class SignUpServlet extends HttpServlet {
 		//登録画面で入力した情報の中のaccount
 		//----↓戻り値を受け取ってる
 		User userAccount = new UserService().select(account);
-		//戻り値を受けとる
 		if (userAccount != null) {
 			errorMessages.add("ユーザーが重複しています");
 		}

@@ -61,13 +61,11 @@
 					<c:forEach items="${messages}" var="message">
 						<div class="message">
 							<div class="account-name">
-								<span class="account">
-									<a href="./?user_id=<c:out value="${message.userId}"/> ">
-										<c:out value="${message.account}" />
-									</a>
-								</span>
-								<span class="name">
-									<c:out value="${message.name}" />
+								<span class="account"> <a
+									href="./?user_id=<c:out value="${message.userId}"/> "> <c:out
+											value="${message.account}" />
+								</a>
+								</span> <span class="name"> <c:out value="${message.name}" />
 								</span>
 							</div>
 							<div class="text">
@@ -78,6 +76,12 @@
 									pattern="yyyy/MM/dd HH:mm:ss" />
 							</div>
 						</div>
+						<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
+						<form action="deleatmessage" method="post">
+							<input name="id" value="${message.id}" id="id" type="hidden" />
+							<input type="submit" value="削除" />
+						</form>
+						<br>
 					</c:forEach>
 				</div>
 			</div>

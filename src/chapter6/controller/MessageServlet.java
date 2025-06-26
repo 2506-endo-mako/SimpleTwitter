@@ -48,7 +48,7 @@ public class MessageServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<String> errorMessages = new ArrayList<String>();
-
+        //jsp(リクエスト)から値を取得している
         String text = request.getParameter("text");
         if (!isValid(text, errorMessages)) {
             session.setAttribute("errorMessages", errorMessages);
