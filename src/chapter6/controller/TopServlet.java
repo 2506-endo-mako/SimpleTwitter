@@ -34,6 +34,7 @@ public class TopServlet extends HttpServlet {
 		application.init();
 	}
 
+	/*TOP画面表示　つぶやきが見れる*/
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
@@ -57,8 +58,11 @@ public class TopServlet extends HttpServlet {
 		String userId = request.getParameter("user_id");
 		List<UserMessage> messages = new MessageService().select(userId);
 
+		//送り返す船に荷物を乗っける　"messages"＝jspの${messages}の部分と連携している
 		request.setAttribute("messages", messages);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
+
+		//船を送り返す
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
 
 	}

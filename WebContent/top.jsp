@@ -76,11 +76,19 @@
 									pattern="yyyy/MM/dd HH:mm:ss" />
 							</div>
 						</div>
+						<!-- ★つぶやきの削除ボタン -->
 						<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
-						<form action="deleatmessage" method="post">
+						<form action="deleatMessage" method="post">
 							<input name="id" value="${message.id}" id="id" type="hidden" />
 							<input type="submit" value="削除" />
 						</form>
+						<!-- ★つぶやきの編集ボタン -->
+						<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
+						<form action="edit" method="post">
+							<input name="id" value="${message.id}" id="id" type="hidden" />
+							<input type="submit" value="編集" />
+						</form>
+
 						<br>
 					</c:forEach>
 				</div>

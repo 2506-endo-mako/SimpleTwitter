@@ -4,6 +4,7 @@ import static chapter6.utils.CloseableUtil.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +39,7 @@ public class MessageDao {
         PreparedStatement ps = null;
         try {
             StringBuilder sql = new StringBuilder();
+            //箱を作る
             sql.append("INSERT INTO messages ( ");
             sql.append("    user_id, ");
             sql.append("    text, ");
@@ -49,12 +51,12 @@ public class MessageDao {
             sql.append("    CURRENT_TIMESTAMP, ");  // created_date
             sql.append("    CURRENT_TIMESTAMP ");   // updated_date
             sql.append(")");
-
+            //接続する
             ps = connection.prepareStatement(sql.toString());
-
+            //値をセットする
             ps.setInt(1, message.getUserId());
             ps.setString(2, message.getText());
-
+            //実行する
             ps.executeUpdate();
         } catch (SQLException e) {
 		log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
@@ -63,4 +65,62 @@ public class MessageDao {
             close(ps);
         }
     }
+
+
+    //★つぶやきの削除
+    public void deleat(Connection connection, int id) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "DELETE FROM messages WHERE id = ?";
+			//箱作る
+			ps = connection.prepareStatement(sql);
+			//セットする
+			ps.setInt(1, id);
+			//実行する
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+  //★つぶやきの編集画面
+    public Message select(Connection connection, int id) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM messages WHERE id = ?";
+			//箱作る
+			ps = connection.prepareStatement(sql);
+			//セットする
+			ps.setInt(1, id);
+			//実行する
+			ResultSet rs = ps.executeQuery();
+
+			return rs;
+
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
 }
