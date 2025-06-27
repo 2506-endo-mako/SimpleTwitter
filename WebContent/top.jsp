@@ -58,6 +58,7 @@
 					</c:if>
 				</div>
 				<div class="messages">
+					<!-- topServletで詰めたmessagesの内容を繰り返し表示 -->
 					<c:forEach items="${messages}" var="message">
 						<div class="message">
 							<div class="account-name">
@@ -84,7 +85,7 @@
 						</form>
 						<!-- ★つぶやきの編集ボタン -->
 						<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
-						<form action="edit" method="post">
+						<form action="edit" method="get">
 							<input name="id" value="${message.id}" id="id" type="hidden" />
 							<input type="submit" value="編集" />
 						</form>

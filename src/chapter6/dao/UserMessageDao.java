@@ -32,6 +32,7 @@ public class UserMessageDao {
 
 	}
 
+	/*top画面　つぶやきの取得*/
 	public List<UserMessage> select(Connection connection, Integer id, int num) {
 
 		log.info(new Object() {
@@ -58,12 +59,18 @@ public class UserMessageDao {
 			//取得した結果を降順に表示する-----------リミットが1000件
 			sql.append("ORDER BY created_date DESC limit " + num);
 
+			//箱作る
 			ps = connection.prepareStatement(sql.toString());
+
+			//setする
 			if (id != null) {
 				ps.setInt(1, id);
 			}
+
+			//実行する
 			ResultSet rs = ps.executeQuery();
 
+			//ResultSet型から、List<UserMessage>型に詰替えてるメソッドを呼ぶ(toUserMessages)
 			List<UserMessage> messages = toUserMessages(rs);
 			return messages;
 		} catch (SQLException e) {
@@ -75,6 +82,7 @@ public class UserMessageDao {
 		}
 	}
 
+	//ResultSet型から、List<UserMessage>型に詰替える
 	private List<UserMessage> toUserMessages(ResultSet rs) throws SQLException {
 
 		log.info(new Object() {
@@ -85,7 +93,9 @@ public class UserMessageDao {
 		List<UserMessage> messages = new ArrayList<UserMessage>();
 		try {
 			while (rs.next()) {
+				//beansの型で宣言
 				UserMessage message = new UserMessage();
+				//set…詰めている
 				message.setId(rs.getInt("id"));
 				message.setText(rs.getString("text"));
 				message.setUserId(rs.getInt("user_id"));
@@ -93,6 +103,7 @@ public class UserMessageDao {
 				message.setName(rs.getString("name"));
 				message.setCreatedDate(rs.getTimestamp("created_date"));
 
+				//messageに詰め終わったらmessages(list)に入れる
 				messages.add(message);
 			}
 			return messages;

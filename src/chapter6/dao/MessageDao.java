@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -94,7 +96,7 @@ public class MessageDao {
 		}
 	}
 
-  //★つぶやきの編集画面
+  //★つぶやきの編集画面に、１つつぶやきを表示させるためのsql
     public Message select(Connection connection, int id) {
 
 		log.info(new Object() {
@@ -105,14 +107,17 @@ public class MessageDao {
 		PreparedStatement ps = null;
 		try {
 			String sql = "SELECT * FROM messages WHERE id = ?";
-			//箱作る
+			//SQL実行用の箱作る
 			ps = connection.prepareStatement(sql);
 			//セットする
 			ps.setInt(1, id);
 			//実行する
 			ResultSet rs = ps.executeQuery();
 
-			return rs;
+			//ResultSet型から、List<Message>型に変換するメソッドを呼ぶ(toMessages)
+			List<Message> messages = toMessages(rs);
+			//message型で返してあげたい
+			return messages.get(0);
 
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
@@ -120,6 +125,31 @@ public class MessageDao {
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);
+		}
+	}
+
+    private List<Message> toMessages(ResultSet rs) throws SQLException {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		List<Message> messages = new ArrayList<Message>();
+		try {
+			while (rs.next()) {
+				//beansの型で宣言
+				Message message = new Message();
+				//set…詰めている
+				message.setId(rs.getInt("id"));
+				message.setText(rs.getString("text"));
+
+				//messageに詰め終わったらmessage(list)に入れる
+				messages.add(message);
+			}
+			return messages;
+		} finally {
+			close(rs);
 		}
 	}
 

@@ -3,6 +3,7 @@ package chapter6.beans;
 import java.io.Serializable;
 import java.util.Date;
 
+//入れ物　仕切りの付いた段ボール、お弁当箱
 public class Message implements Serializable {
 
     private int id;

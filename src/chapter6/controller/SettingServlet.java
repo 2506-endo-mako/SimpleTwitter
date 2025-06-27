@@ -37,6 +37,7 @@ public class SettingServlet extends HttpServlet {
 
 	}
 
+	/*設定画面表示*/
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -55,6 +56,7 @@ public class SettingServlet extends HttpServlet {
 		request.getRequestDispatcher("setting.jsp").forward(request, response);
 	}
 
+	/*設定更新*/
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
