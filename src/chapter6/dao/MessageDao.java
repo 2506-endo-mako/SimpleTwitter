@@ -96,7 +96,7 @@ public class MessageDao {
 		}
 	}
 
-  //★つぶやきの編集画面に、１つつぶやきを表示させるためのsql
+  //★つぶやきの編集画面に、1つのぶやきを表示させるためのsql
     public Message select(Connection connection, int id) {
 
 		log.info(new Object() {
@@ -128,7 +128,42 @@ public class MessageDao {
 		}
 	}
 
-    private List<Message> toMessages(ResultSet rs) throws SQLException {
+	//★編集されたつぶやきを更新するためのsql
+	public void update(Connection connection, Message message) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE messages SET ");
+			sql.append("    text = ? ");
+			sql.append("WHERE id = ?");
+
+			//SQL実行用の箱作る
+			ps = connection.prepareStatement(sql.toString());
+
+			//セットする
+			ps.setString(1, message.getText());
+			ps.setInt(2, message.getId());
+
+			//実行する
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	private List<Message> toMessages(ResultSet rs) throws SQLException {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +

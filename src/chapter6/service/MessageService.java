@@ -85,46 +85,73 @@ public class MessageService {
 			} catch (Error e) {
 				rollback(connection);
 				log.log(Level.SEVERE, new Object() {
-				}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-				throw e;
-			} finally {
-				close(connection);
-			}
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
 	}
 
 	//★つぶやきの編集画面
-		//EditSrvletから呼び出されるselectメソッド
-		public Message select(int id) {
+	//EditSrvletから呼び出されるselectメソッド
+	public Message select(int id) {
 
-			log.info(new Object() {
-			}.getClass().getEnclosingClass().getName() +
-					" : " + new Object() {
-					}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-				Connection connection = null;
-				try {
-					connection = getConnection();
+		Connection connection = null;
+		try {
+			connection = getConnection();
 
-					 Message message = new MessageDao().select(connection, id);
-					commit(connection);
+			Message message = new MessageDao().select(connection, id);
+			commit(connection);
 
-					return message;
-				} catch (RuntimeException e) {
-					rollback(connection);
-					log.log(Level.SEVERE, new Object() {
-					}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-					throw e;
-				} catch (Error e) {
-					rollback(connection);
-					log.log(Level.SEVERE, new Object() {
-					}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-					throw e;
-				} finally {
-					close(connection);
-				}
+			return message;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
 		}
+	}
 
+	//★編集されたつぶやき
+	//EditSrvletから呼び出されるupdateメソッド　更新したらvoidで良い(リダイレクト先で、リソース取得するため)
+	public void update(Message message) {
 
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			new MessageDao().update(connection, message);
+			commit(connection);
+			return;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
 
 	/*
 	 * selectの引数にString型のuserIdを追加
