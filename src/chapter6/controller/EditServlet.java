@@ -1,6 +1,8 @@
 package chapter6.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -8,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 
 import chapter6.beans.Message;
 import chapter6.logging.InitApplication;
@@ -45,9 +49,18 @@ public class EditServlet  extends HttpServlet {
   		//jsp(リクエスト)から値を取得している→編集するmessageの情報は一回きりで大丈夫なのでリクエスト
   		//HTMLからくるのはだいたいString型
   		//正規構文で振り分けたい　もしfalseだったら“不正なパラメータが入力されました”と表示する
-  		if(request.getParameter("id").matches("^[0-9]+$")) {
-			System.out.println("不正なパラメータが入力されました");
+
+  		//上記の振り分けかつ（||）IDの入力が無かったらエラーメッセージを表示したい
+  		//→型変換の前　isEmpty　どちらが幅広くチェックできるか
+  		if(request.getParameter("id").matches("^[^0-9]+$") || StringUtils.isEmpty(request.getParameter("id"))) {
+
+			List<String> errorMessages = new ArrayList<String>();
+	            errorMessages.add("不正なパラメータが入力されました");
+	            request.setAttribute("errorMessages", errorMessages);
+	            request.getRequestDispatcher("top.jsp").forward(request, response);
+	            return;
 		}
+
   		int id = (Integer.parseInt(request.getParameter("id")));
 
   		// request→一回だけ保持される　session→一定期間保持される
@@ -55,6 +68,16 @@ public class EditServlet  extends HttpServlet {
   		//リクエストの情報からmessagesテーブルにあるIDを取ったものを入れる
   		//戻り値があるから変数が必要
   		Message message = new MessageService().select(id);
+
+  		//データベースにidの値が無かったらエラーメッセージを表示したい
+  		//セレクトをかけた情報が左辺に入ってくる
+  		if (message == null) {
+  			List<String> errorMessages = new ArrayList<String>();
+            errorMessages.add("不正なパラメータが入力されました");
+            request.setAttribute("errorMessages", errorMessages);
+            request.getRequestDispatcher("top.jsp").forward(request, response);
+            return;
+  		}
 
   		//取得してきたつぶやきの情報をjspで表示できるように、値をset
 		//送り返す船に荷物を乗っける　"message"＝edit.jspの${message}の部分と連携している

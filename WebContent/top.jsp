@@ -77,19 +77,31 @@
 									pattern="yyyy/MM/dd HH:mm:ss" />
 							</div>
 						</div>
-						<!-- ★つぶやきの削除ボタン -->
-						<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
-						<form action="deleatMessage" method="post">
-							<input name="id" value="${message.id}" id="id" type="hidden" />
-							<input type="submit" value="削除" />
-						</form>
-						<!-- ★つぶやきの編集ボタン -->
-						<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
-						<form action="edit" method="get">
-							<input name="id" value="${message.id}" id="id" type="hidden" />
-							<input type="submit" value="編集" />
-						</form>
 
+						<!--条件分岐でfalseだったらボタンは非表示にしたい→formの外へ-->
+						<c:if test="${message.userId == loginUser.id}">
+
+							<!-- ★つぶやきの削除ボタン -->
+							<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
+							<form action="deleatMessage" method="post">
+								<input name="id" value="${message.id}" id="id" type="hidden" />
+								<input type="submit" value="削除" />
+							</form>
+						</c:if>
+
+						<!-- つぶやいた人と、ログインしている人のidが一緒かどうか -->
+						<c:if test="${message.userId == loginUser.id}">
+
+							<!-- ★つぶやきの編集ボタン -->
+							<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
+
+							<form action="edit" method="get">
+								<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
+								<input name="id" value="${message.id}" id="id" type="hidden" />
+								<input type="submit" value="編集" />
+							</form>
+
+						</c:if>
 						<br>
 					</c:forEach>
 				</div>

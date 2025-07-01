@@ -117,8 +117,11 @@ public class MessageDao {
 			//ResultSet型から、List<Message>型に変換するメソッドを呼ぶ(toMessages)
 			List<Message> messages = toMessages(rs);
 			//message型で返してあげたい
-			return messages.get(0);
-
+			if(messages.isEmpty()) {
+				return null;
+			} else {
+				return messages.get(0);
+				}
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);

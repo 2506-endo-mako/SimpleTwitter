@@ -64,6 +64,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         HttpSession session = request.getSession();
+        //セッション領域にsetAttributeしているので、いつでもどんな画面でも、loginUserを使うことが出来ている
         session.setAttribute("loginUser", user);
         response.sendRedirect("./");
     }
