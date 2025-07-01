@@ -58,7 +58,8 @@
 					</c:if>
 				</div>
 				<div class="messages">
-					<!-- topServletで詰めたmessagesの内容を繰り返し表示 -->
+					<!-- topServletで詰めたmessagesの内容を繰り返し表示(forEach)-->
+
 					<c:forEach items="${messages}" var="message">
 						<div class="message">
 							<div class="account-name">
@@ -70,7 +71,7 @@
 								</span>
 							</div>
 							<div class="text">
-								<c:out value="${message.text}" />
+							<pre><c:out value="${message.text}" /></pre>
 							</div>
 							<div class="date">
 								<fmt:formatDate value="${message.createdDate}"

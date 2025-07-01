@@ -104,7 +104,20 @@ public class EditServlet  extends HttpServlet {
   		int id = (Integer.parseInt(request.getParameter("id")));
 
   		//テキストを取得
-  		String text = request.getParameter("text");
+		String text = request.getParameter("text");
+
+		//140文字以上の入力があった場合、更新せずエラーメッセージを表示する、またメッセージ内容も保持する
+		List<String> errorMessages = new ArrayList<String>();
+		if (140 < text.length()) {
+			errorMessages.add("140文字以下で入力してください");
+			request.setAttribute("errorMessages", errorMessages);
+			//エラーメッセージと共にメッセージ（text）も保持したい
+			request.setAttribute("text", text);
+			request.getRequestDispatcher("edit.jsp").forward(request, response);
+			return;
+		}
+
+
 
   		//message 型の変数に、idとtextを入れてあげる
   		Message message = new Message();
@@ -114,6 +127,7 @@ public class EditServlet  extends HttpServlet {
 
   		//messageにtextをセット
   		message.setText(text);
+
 
   		//Serviceを呼び出すupdateメソッドの引数に、
   		//リクエストの情報から取ったid,textを入れる
