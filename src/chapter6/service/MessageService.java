@@ -69,22 +69,22 @@ public class MessageService {
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
 
-			Connection connection = null;
-			try {
-				connection = getConnection();
+		Connection connection = null;
+		try {
+			connection = getConnection();
 
-				new MessageDao().deleat(connection, id);
-				commit(connection);
+			new MessageDao().deleat(connection, id);
+			commit(connection);
 
-				return;
-			} catch (RuntimeException e) {
-				rollback(connection);
-				log.log(Level.SEVERE, new Object() {
-				}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-				throw e;
-			} catch (Error e) {
-				rollback(connection);
-				log.log(Level.SEVERE, new Object() {
+			return;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} finally {

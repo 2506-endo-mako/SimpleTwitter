@@ -25,11 +25,11 @@
 					<!--items属性 = コレクション　var属性 = 格納する変数-->
 					<c:forEach items="${errorMessages}" var="errorMessage">
 
-							<!--リストの項目を表す　ulまたはolまたはmenuの下に配置される(li)-->
-							<!--変数の値を出力するタグでありJavaプログラム変数の値をHTMLへ出力する
+						<!--リストの項目を表す　ulまたはolまたはmenuの下に配置される(li)-->
+						<!--変数の値を出力するタグでありJavaプログラム変数の値をHTMLへ出力する
 						　value属性には出力する値を指定する-->
-							<li><c:out value="${errorMessage}" />
-						</c:forEach>
+						<li><c:out value="${errorMessage}" />
+					</c:forEach>
 				</ul>
 			</div>
 		</c:if>
@@ -46,19 +46,13 @@
 
 			<!--ユーザーが大量の自由記述テキストを入力できる(textarea)-->
 			<!--valueで指定した値を出力する(c:out)-->
-			<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out
-						value="${message.text}" /></textarea></pre>
+			<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out value="${message.text}" /></textarea></pre>
 			<!--改行する(br)-->
 			<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
 			<!--リンク先を指定する属性(a href) -->
-			<br /> <input type="submit" value="更新" /> <br /> <a href="./">戻る</a>
-
+			<br />
+			<input type="submit" value="更新" /><br /><a href="./">戻る</a>
 		</form>
-
-
-
-
-
 		<!--単独では意味を持たない汎用的なブロックレベル要素をグループ化するためのタグ(div)-->
 		<div class="copyright">Copyright(c)Your Name</div>
 	</div>

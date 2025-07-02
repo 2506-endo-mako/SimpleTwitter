@@ -64,73 +64,73 @@
 					<!-- jspページで変数の削除をする -->
 					<c:remove var="errorMessages" scope="session" />
 				</c:if>
-				<div class="form-area">
-					<c:if test="${ isShowMessageForm }">
-						<!-- フォームを作る（form） -->
-						<form action="message" method="post">
-							いま、どうしてる？<br />
-							<!-- □の中に書き込める -->
-							<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
-							<!-- 改行（br） -->
-							<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
-							<br /> <input type="submit" value="つぶやく">（140文字まで）
-						</form>
-					</c:if>
-				</div>
-				<div class="messages">
-					<!-- topServletで詰めたmessagesの内容を繰り返し表示(forEach)-->
-					<c:forEach items="${messages}" var="message">
-						<div class="message">
-							<div class="account-name">
-								<!--文章中の特定の要素をグループ化する (span)-->
-								<span class="account">
-								 <a href="./?user_id=<c:out value="${message.userId}"/> ">
-								 <c:out value="${message.account}" />
-								</a>
-								</span>
-								<span class="name"> <c:out value="${message.name}" /></span>
-							</div>
-							<div class="text">
-							<!-- 整形済みテキストを表示する(空白にも対応しちゃう！)(pre)-->
-							<pre><c:out value="${message.text}" /></pre>
-							</div>
-							<div class="date">
-								<!-- 見た目やレイアウトを調節する -->
-								<fmt:formatDate value="${message.createdDate}"
-									pattern="yyyy/MM/dd HH:mm:ss" />
-							</div>
-						</div>
-
-						<!--条件分岐でfalseだったらボタンは非表示にしたい→formの外へ-->
-						<c:if test="${message.userId == loginUser.id}">
-
-							<!-- ★つぶやきの削除ボタン -->
-							<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
-							<form action="deleatMessage" method="post">
-								<input name="id" value="${message.id}" id="id" type="hidden" />
-								<input type="submit" value="削除" />
-							</form>
-						</c:if>
-
-						<!-- つぶやいた人と、ログインしている人のidが一緒かどうか -->
-						<c:if test="${message.userId == loginUser.id}">
-
-							<!-- ★つぶやきの編集ボタン -->
-							<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
-
-							<form action="edit" method="get">
-								<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
-								<input name="id" value="${message.id}" id="id" type="hidden" />
-								<input type="submit" value="編集" />
-							</form>
-
-						</c:if>
-						<br>
-					</c:forEach>
-				</div>
 			</div>
 		</c:if>
-		<div class="copyright">Copyright(c)Endo_Mako</div>
+		<div class="form-area">
+			<c:if test="${ isShowMessageForm }">
+				<!-- フォームを作る（form） -->
+				<form action="message" method="post">
+					いま、どうしてる？<br />
+					<!-- □の中に書き込める -->
+					<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+					<!-- 改行（br） -->
+					<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
+					<br />
+					<input type="submit" value="つぶやく">（140文字まで）
+				</form>
+			</c:if>
+		</div>
+		<div class="messages">
+			<!-- topServletで詰めたmessagesの内容を繰り返し表示(forEach)-->
+			<c:forEach items="${messages}" var="message">
+				<div class="message">
+					<div class="account-name">
+						<!--文章中の特定の要素をグループ化する (span)-->
+						<span class="account"> <a
+							href="./?user_id=<c:out value="${message.userId}"/> ">
+							<c:out value="${message.account}" />
+						</a>
+						</span>
+						<span class="name"> <c:out value="${message.name}" />
+						</span>
+					</div>
+					<div class="text">
+						<!-- 整形済みテキストを表示する(空白にも対応しちゃう！)(pre)-->
+						<pre><c:out value="${message.text}" /></pre>
+					</div>
+					<div class="date">
+						<!-- 見た目やレイアウトを調節する -->
+						<fmt:formatDate value="${message.createdDate}"
+							pattern="yyyy/MM/dd HH:mm:ss" />
+					</div>
+				</div>
+
+				<!--条件分岐でfalseだったらボタンは非表示にしたい→formの外へ-->
+				<c:if test="${message.userId == loginUser.id}">
+
+					<!-- ★つぶやきの削除ボタン -->
+					<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
+					<form action="deleatMessage" method="post">
+						<input name="id" value="${message.id}" id="id" type="hidden" />
+						<input type="submit" value="削除" />
+					</form>
+				</c:if>
+
+				<!-- つぶやいた人と、ログインしている人のidが一緒かどうか -->
+				<c:if test="${message.userId == loginUser.id}">
+
+					<!-- ★つぶやきの編集ボタン -->
+					<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
+					<form action="edit" method="get">
+						<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
+						<input name="id" value="${message.id}" id="id" type="hidden" />
+						<input type="submit" value="編集" />
+					</form>
+				</c:if>
+				<br>
+			</c:forEach>
+		</div>
 	</div>
+	<div class="copyright">Copyright(c)Endo_Mako</div>
 </body>
 </html>

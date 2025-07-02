@@ -6,11 +6,11 @@ import java.util.Date;
 //入れ物　仕切りの付いた段ボール、お弁当箱
 public class Message implements Serializable {
 
-    private int id;
-    private int userId;
-    private String text;
-    private Date createdDate;
-    private Date updatedDate;
+	private int id;
+	private int userId;
+	private String text;
+	private Date createdDate;
+	private Date updatedDate;
 
 	// getter/setterは省略されているので、自分で記述しましょう。
 	public int getId() {
@@ -20,6 +20,7 @@ public class Message implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public int getUserId() {
 		return userId;
 	}
@@ -43,6 +44,7 @@ public class Message implements Serializable {
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
+
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}

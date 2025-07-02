@@ -13,23 +13,22 @@ import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
 
 @WebServlet(urlPatterns = { "/deleatMessage" })
-public class DeleatMessageServlet  extends HttpServlet {
+public class DeleatMessageServlet extends HttpServlet {
 
+	/**
+	* ロガーインスタンスの生成
+	*/
+	Logger log = Logger.getLogger("twitter");
 
-    /**
-    * ロガーインスタンスの生成
-    */
-    Logger log = Logger.getLogger("twitter");
+	/**
+	* デフォルトコンストラクタ
+	* アプリケーションの初期化を実施する。
+	*/
+	public DeleatMessageServlet() {
+		InitApplication application = InitApplication.getInstance();
+		application.init();
 
-    /**
-    * デフォルトコンストラクタ
-    * アプリケーションの初期化を実施する。
-    */
-    public DeleatMessageServlet() {
-        InitApplication application = InitApplication.getInstance();
-        application.init();
-
-    }
+	}
 
 	//★つぶやきの削除
 
@@ -56,24 +55,5 @@ public class DeleatMessageServlet  extends HttpServlet {
 		response.sendRedirect("./");
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
