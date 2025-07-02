@@ -21,20 +21,15 @@
 				<!--順序がない箇条書きのリストを表示する-->
 				<ul>
 
-					<!--コレクションを反復処理する--><!--items属性 = コレクション　var属性 = 格納する変数-->
+					<!--コレクションを反復処理する-->
+					<!--items属性 = コレクション　var属性 = 格納する変数-->
 					<c:forEach items="${errorMessages}" var="errorMessage">
-					<!--textも表示させたい-->
-					<c:forEach items="${text}" var="text">
 
-
-						<!--リストの項目を表す　ulまたはolまたはmenuの下に配置される(li)-->
-						<!--変数の値を出力するタグでありJavaプログラム変数の値をHTMLへ出力する
+							<!--リストの項目を表す　ulまたはolまたはmenuの下に配置される(li)-->
+							<!--変数の値を出力するタグでありJavaプログラム変数の値をHTMLへ出力する
 						　value属性には出力する値を指定する-->
-						<li><c:out value="${errorMessage}" />
-						<!--textの表示-->
-						<li><c:out value="${text}" />
-
-					</c:forEach></c:forEach>
+							<li><c:out value="${errorMessage}" />
+						</c:forEach>
 				</ul>
 			</div>
 		</c:if>
@@ -46,13 +41,13 @@
 		<form action="edit" method="post">
 
 			<!--フォームの要素の見出しを表すタグ(label)-->
-			<label for="name">つぶやきの編集</label>
-
-			<br /> <input name="id" value="${message.id}" id="id" type="hidden" />
+			<label for="name">つぶやきの編集</label> <br /> <input name="id"
+				value="${message.id}" id="id" type="hidden" />
 
 			<!--ユーザーが大量の自由記述テキストを入力できる(textarea)-->
 			<!--valueで指定した値を出力する(c:out)-->
-			<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out value="${message.text}" /></textarea></pre>
+			<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out
+						value="${message.text}" /></textarea></pre>
 			<!--改行する(br)-->
 			<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
 			<!--リンク先を指定する属性(a href) -->

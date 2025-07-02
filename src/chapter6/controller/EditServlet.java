@@ -106,20 +106,7 @@ public class EditServlet  extends HttpServlet {
   		//テキストを取得
 		String text = request.getParameter("text");
 
-		//140文字以上の入力があった場合、更新せずエラーメッセージを表示する、またメッセージ内容も保持する
-		List<String> errorMessages = new ArrayList<String>();
-		if (140 < text.length()) {
-			errorMessages.add("140文字以下で入力してください");
-			request.setAttribute("errorMessages", errorMessages);
-			//エラーメッセージと共にメッセージ（text）も保持したい
-			request.setAttribute("text", text);
-			request.getRequestDispatcher("edit.jsp").forward(request, response);
-			return;
-		}
-
-
-
-  		//message 型の変数に、idとtextを入れてあげる
+		//message 型の変数に、idとtextを入れてあげる
   		Message message = new Message();
 
   		//messageにidをセット
@@ -128,12 +115,42 @@ public class EditServlet  extends HttpServlet {
   		//messageにtextをセット
   		message.setText(text);
 
+		List<String> errorMessages = new ArrayList<String>();
+		if (!isValid(text, errorMessages)) {
+			request.setAttribute("errorMessages", errorMessages);
+            //編集画面にフォワードする(船を送り返す)
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("edit.jsp").forward(request, response);
+            return;
+        }
 
   		//Serviceを呼び出すupdateメソッドの引数に、
   		//リクエストの情報から取ったid,textを入れる
   		new MessageService().update(message);
 
+  		request.setAttribute("message", message);
+
   		//編集画面にリダイレクトする(仕事を依頼、画面表示はそっちでやってくれる）
   		response.sendRedirect("./");
   	}
+
+	private boolean isValid(String text, List<String> errorMessages) {
+
+  		  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+  	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+  		  //140文字以上の入力があった場合、更新せずエラーメッセージを表示する、またメッセージ内容も保持する
+  		  //空白で更新ボタンを押下されたらエラーメッセージを表示する
+  		  //改行で更新ボタンを押下されたらエラーメッセージを表示する
+  		  	if (140 < text.length()) {
+			errorMessages.add("140文字以下で入力してください");
+			} else if (StringUtils.isBlank(text)) {
+				errorMessages.add("入力してください");
+  		  	}
+			//エラーメッセージの数が1つでもあったら
+			if (errorMessages.size() != 0) {
+            return false;
+        }
+        return true;
+	}
 }

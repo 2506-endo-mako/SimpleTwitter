@@ -50,6 +50,8 @@ public class MessageServlet extends HttpServlet {
         List<String> errorMessages = new ArrayList<String>();
         //jsp(リクエスト)から値を取得している
         String text = request.getParameter("text");
+
+        //バリデーションチェック　falseの時にエラーメッセージをセッションにセット、リダイレクト
         if (!isValid(text, errorMessages)) {
             session.setAttribute("errorMessages", errorMessages);
             response.sendRedirect("./");
@@ -66,6 +68,8 @@ public class MessageServlet extends HttpServlet {
         response.sendRedirect("./");
     }
 
+    //バリデーションチェック　エラーにかかるものがあれば、エラーメッセージをadd（追加）
+    //戻り値…trueだったらエラーが0件　エラーが1つでもあったらFalseで返る
     private boolean isValid(String text, List<String> errorMessages) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
@@ -77,6 +81,7 @@ public class MessageServlet extends HttpServlet {
             errorMessages.add("140文字以下で入力してください");
         }
 
+        //エラーメッセージの数が1つでもあったら
         if (errorMessages.size() != 0) {
             return false;
         }
