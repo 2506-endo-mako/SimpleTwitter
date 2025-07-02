@@ -68,7 +68,7 @@ public class EditServlet extends HttpServlet {
 			return;
 		}
 
-		int id = (Integer.parseInt(request.getParameter("id")));
+		int id = Integer.parseInt(messageId);
 
 		// request→一回だけ保持される　session→一定期間保持される
 		//サービスを呼び出すdeleatメソッドの引数に、
@@ -111,7 +111,7 @@ public class EditServlet extends HttpServlet {
 		// request→一回だけ保持される　session→一定期間保持される
 		//jsp(リクエスト)から値を取得している→編集するmessageの情報は一回きりで大丈夫なのでリクエスト
 		//HTMLからくるのはだいたいString型
-		int id = (Integer.parseInt(request.getParameter("id")));
+		int id = Integer.parseInt(request.getParameter("id"));
 
 		//テキストを取得
 		String text = request.getParameter("text");
