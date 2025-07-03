@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import chapter6.beans.User;
+import chapter6.beans.UserComment;
 import chapter6.beans.UserMessage;
 import chapter6.logging.InitApplication;
+import chapter6.service.CommentService;
 import chapter6.service.MessageService;
 
 @WebServlet(urlPatterns = { "/index.jsp" })
@@ -50,6 +52,7 @@ public class TopServlet extends HttpServlet {
 		if (user != null) {
 			isShowMessageForm = true;
 		}
+
 		/*
 		 * String型のuser_idの値をrequest.getParameter("user_id")で
 		 * JSPから受け取るように設定
@@ -58,12 +61,20 @@ public class TopServlet extends HttpServlet {
 		String userId = request.getParameter("user_id");
 		List<UserMessage> messages = new MessageService().select(userId);
 
+		String messageId = request.getParameter("message_id");
+		List<UserComment> comments = new CommentService().select(messageId);
+
+		//String userId2 = request.getParameter("user_id");
+		//List<UserMessage> messages2 = new CommentService().select(userId);
+
 		//送り返す船に荷物を乗っける　"messages"＝jspの${messages}の部分と連携している
+
+		request.setAttribute("comments", comments);
 		request.setAttribute("messages", messages);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 
+
 		//船を送り返す
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
-
 	}
 }

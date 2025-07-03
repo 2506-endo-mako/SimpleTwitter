@@ -34,6 +34,7 @@
 				<a href="logout">ログアウト</a>
 			</c:if>
 		</div>
+		<!-- ログインしていなかったら表示しない -->
 		<c:if test="${ not empty loginUser }">
 			<div class="profile">
 				<div class="name">
@@ -86,16 +87,13 @@
 				<div class="message">
 					<div class="account-name">
 						<!--文章中の特定の要素をグループ化する (span)-->
-						<span class="account"> <a
-							href="./?user_id=<c:out value="${message.userId}"/> ">
-							<c:out value="${message.account}" />
-						</a>
-						</span>
-						<span class="name"> <c:out value="${message.name}" />
-						</span>
+						<span class="account">
+						<a href="./?user_id=<c:out value="${message.userId}"/> ">
+							<c:out value="${message.account}" /></a></span>
+						<span class="name"> <c:out value="${message.name}" /></span>
 					</div>
 					<div class="text">
-						<!-- 整形済みテキストを表示する(空白にも対応しちゃう！)(pre)-->
+						<!-- 整形済みテキストを表示する(空白にも改行にも対応しちゃう！)(pre)-->
 						<pre><c:out value="${message.text}" /></pre>
 					</div>
 					<div class="date">
@@ -115,7 +113,6 @@
 						<input type="submit" value="削除" />
 					</form>
 				</c:if>
-
 				<!-- つぶやいた人と、ログインしている人のidが一緒かどうか -->
 				<c:if test="${message.userId == loginUser.id}">
 
@@ -123,9 +120,22 @@
 					<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
 					<form action="edit" method="get">
 						<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
-						<input name="id" value="${message.id}" id="id" type="hidden" />
-						<input type="submit" value="編集" />
+						<input name="id" value="${message.id}" id="id" type="hidden" /> <input
+							type="submit" value="編集" />
 					</form>
+				</c:if>
+
+				<!-- ログインしていなかったら表示しない -->
+				<c:if test="${ not empty loginUser }">
+					<div class="profile">
+						<div class="name"></div>
+						<!-- ★返信ボタンとテキストエリア -->
+						<form action="comment" method="post">
+							<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out value="${comment.text}" /></textarea></pre>
+							<input name="message_id" value="${message.id}" id="id" type="hidden" />
+							<input type="submit" value="返信" />
+						</form>
+					</div>
 				</c:if>
 				<br>
 			</c:forEach>

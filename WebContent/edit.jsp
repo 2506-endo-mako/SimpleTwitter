@@ -41,8 +41,8 @@
 		<form action="edit" method="post">
 
 			<!--フォームの要素の見出しを表すタグ(label)-->
-			<label for="name">つぶやきの編集</label> <br /> <input name="id"
-				value="${message.id}" id="id" type="hidden" />
+			<label for="name">つぶやきの編集</label> <br />
+			<input name="id" value="${message.id}" id="id" type="hidden" />
 
 			<!--ユーザーが大量の自由記述テキストを入力できる(textarea)-->
 			<!--valueで指定した値を出力する(c:out)-->
