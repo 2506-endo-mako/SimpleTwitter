@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +35,7 @@ public class UserMessageDao {
 	}
 
 	/*top画面　つぶやきの取得*/
-	public List<UserMessage> select(Connection connection, Integer id, int num) {
+	public List<UserMessage> select(Connection connection, Integer id, int num, String startDate, String endDate) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -53,18 +55,33 @@ public class UserMessageDao {
 			sql.append("FROM messages ");
 			sql.append("INNER JOIN users ");
 			sql.append("ON messages.user_id = users.id ");
+			//簡易Twitter作成日前～現在の日時までの条件にしたい
+			sql.append("WHERE messages.created_date BETWEEN ? AND ? ");
+
 			if (id != null) {
-				sql.append("WHERE user_id = ? ");
+				sql.append("AND user_id = ? ");
 			}
 			//取得した結果を降順に表示する-----------リミットが1000件
 			sql.append("ORDER BY created_date DESC limit " + num);
 
-			//箱作る
+			//箱作る　型変換してる
 			ps = connection.prepareStatement(sql.toString());
 
 			//setする
+			//yyyy/MM/dd HH:mm:ss"
+			ps.setString(1, "2025/06/01 00:00:00");
+
+			//変数dateを宣言して、フォーマット変換してる
+			Date date = new Date();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+	        //変数endにsdfからfomatメソッドで引数dateを渡したものを代入してる
+	        String end = sdf.format(date);
+
+			ps.setString(2, end);
+
 			if (id != null) {
-				ps.setInt(1, id);
+				ps.setInt(3, id);
 			}
 
 			//実行する

@@ -69,6 +69,20 @@
 		</c:if>
 		<div class="form-area">
 			<c:if test="${ isShowMessageForm }">
+
+				<form action="index.jsp" method="get">
+					<!--フォームの要素の見出しを表すタグ(label)-->
+					日付
+					<!-- nameがServletに渡したい情報　valueが初期表示させたい情報 -->>
+					<input type="date" id="start-date" name="start-date" value="">
+					～
+					<input type="date" id="end-date" name="end-date" value="">
+
+					<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
+					<input type="submit" value="絞り込み">
+				</form>
+				<br>
+
 				<!-- フォームを作る（form） -->
 				<form action="message" method="post">
 					いま、どうしてる？<br />
@@ -125,21 +139,43 @@
 					</form>
 				</c:if>
 
-				<!-- ログインしていなかったら表示しない -->
-				<c:if test="${ not empty loginUser }">
-					<div class="profile">
-						<div class="name"></div>
-						<!-- ★返信ボタンとテキストエリア -->
-						<form action="comment" method="post">
-							<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out value="${comment.text}" /></textarea></pre>
-							<input name="message_id" value="${message.id}" id="id" type="hidden" />
-							<input type="submit" value="返信" />
-						</form>
+				<!--★つぶやきへの返信を表示させる-->
+				<c:forEach items="${comments}" var="comment">
+					<c:if test="${message.id == comment.messageId}">
+						<div class="comment">
+							<div class="account-name">
+								<!--文章中の特定の要素をグループ化する (span)-->
+								<span class="account">
+								<c:out value="${comment.account}" /></span>
+								<span class="name"><c:out value="${comment.name}" /></span>
+							</div>
+							<div class="text">
+								<!-- 整形済みテキストを表示する(空白にも改行にも対応しちゃう！)(pre)-->
+								<pre><c:out value="${comment.text}" /></pre>
+							</div>
+							<div class="date">
+						<!-- 見た目やレイアウトを調節する -->
+						<fmt:formatDate value="${message.createdDate}"
+							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
-				</c:if>
-				<br>
-			</c:forEach>
-		</div>
+						</div>
+					</c:if>
+				</c:forEach>
+
+					<!-- ログインしていなかったら表示しない -->
+					<c:if test="${ not empty loginUser }">
+						<div class="profile">
+							<div class="name"></div>
+							<!-- ★返信ボタンとテキストエリア -->
+							<form action="comment" method="post">
+								<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out value="${comment.text}" /></textarea></pre>
+								<input name="message_id" value="${message.id}" id="id"
+									type="hidden" /> <input type="submit" value="返信" />
+							</form>
+						</div>
+					</c:if>
+					<br>
+				</c:forEach></div>
 	</div>
 	<div class="copyright">Copyright(c)Endo_Mako</div>
 </body>

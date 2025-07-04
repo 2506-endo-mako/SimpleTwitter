@@ -1,6 +1,8 @@
 package chapter6.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
 
 import chapter6.beans.Comment;
 import chapter6.beans.User;
@@ -50,13 +54,14 @@ public class CommentServlet extends HttpServlet {
 		String text = request.getParameter("text");
 		int messageId = Integer.parseInt(request.getParameter("message_id"));
 
-
-		//バリデーションチェック　falseの時にエラーメッセージをセッションにセット、リダイレクト
-		//if (!isValid(text, errorMessages)) {
-		//	session.setAttribute("errorMessages", errorMessages);
-		//	response.sendRedirect("./");
-		//	return;
-		//}
+		//下記のisvalidメソッドで1つでもエラーになったらここに入る
+		List<String> errorMessages = new ArrayList<String>();
+		if (!isValid(text, errorMessages)) {
+			request.setAttribute("errorMessages", errorMessages);
+			//編集画面にフォワードする(船を送り返す)
+			request.getRequestDispatcher("top.jsp").forward(request, response);
+			return;
+		}
 
 		//登録（insert）するために必要　MessageIdが足りていない
 		Comment comment = new Comment();
@@ -71,4 +76,22 @@ public class CommentServlet extends HttpServlet {
 		response.sendRedirect("./");
 	}
 
+	private boolean isValid(String text, List<String> errorMessages) {
+
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
+
+		//140文字以上の入力があった場合、更新せずエラーメッセージを表示する、またメッセージ内容も保持する
+		//空白や改行で更新ボタンを押下されたらエラーメッセージを表示する
+		if (StringUtils.isBlank(text)) {
+			errorMessages.add("メッセージを入力してください");
+		}
+		//エラーメッセージの数が1つでもあったら
+		if (errorMessages.size() != 0) {
+			return false;
+		}
+		return true;
+	}
 }

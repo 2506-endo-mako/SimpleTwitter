@@ -53,13 +53,17 @@ public class TopServlet extends HttpServlet {
 			isShowMessageForm = true;
 		}
 
+		//※request.getParameterで開始日と終了日を取得
+		String startDate = request.getParameter("start-date");
+		String endDate = request.getParameter("end-date");
+
 		/*
 		 * String型のuser_idの値をrequest.getParameter("user_id")で
 		 * JSPから受け取るように設定
 		 * MessageServiceのselectに引数としてString型のuser_idを追加
 		 */
 		String userId = request.getParameter("user_id");
-		List<UserMessage> messages = new MessageService().select(userId);
+		List<UserMessage> messages = new MessageService().select(userId,startDate,endDate);
 
 		String messageId = request.getParameter("message_id");
 		List<UserComment> comments = new CommentService().select(messageId);

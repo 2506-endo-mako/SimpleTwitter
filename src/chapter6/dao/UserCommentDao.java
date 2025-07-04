@@ -52,7 +52,7 @@ public List<UserComment> select(Connection connection, Integer id, int num) {
 			sql.append("INNER JOIN users ");
 			sql.append("ON comments.user_id = users.id ");
 			//取得した結果を降順に表示する-----------リミットが1000件
-			sql.append("ORDER BY created_date DESC limit " + num);
+			sql.append("ORDER BY created_date ASC limit " + num);
 
 			//箱作る
 			ps = connection.prepareStatement(sql.toString());
