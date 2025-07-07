@@ -6,9 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,16 +67,9 @@ public class UserMessageDao {
 
 			//setする
 			//yyyy/MM/dd HH:mm:ss"
-			ps.setString(1, "2025/06/01 00:00:00");
+			ps.setString(1, startDate);
 
-			//変数dateを宣言して、フォーマット変換してる
-			Date date = new Date();
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
-	        //変数endにsdfからfomatメソッドで引数dateを渡したものを代入してる
-	        String end = sdf.format(date);
-
-			ps.setString(2, end);
+			ps.setString(2, endDate);
 
 			if (id != null) {
 				ps.setInt(3, id);

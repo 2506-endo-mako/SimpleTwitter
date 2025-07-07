@@ -54,6 +54,8 @@ public class TopServlet extends HttpServlet {
 		}
 
 		//※request.getParameterで開始日と終了日を取得
+		//67行目でmessageIdとしてMessageServiceに送る
+		//
 		String startDate = request.getParameter("start-date");
 		String endDate = request.getParameter("end-date");
 
@@ -63,7 +65,7 @@ public class TopServlet extends HttpServlet {
 		 * MessageServiceのselectに引数としてString型のuser_idを追加
 		 */
 		String userId = request.getParameter("user_id");
-		List<UserMessage> messages = new MessageService().select(userId,startDate,endDate);
+		List<UserMessage> messages = new MessageService().select(userId, startDate, endDate);
 
 		String messageId = request.getParameter("message_id");
 		List<UserComment> comments = new CommentService().select(messageId);
@@ -76,7 +78,8 @@ public class TopServlet extends HttpServlet {
 		request.setAttribute("comments", comments);
 		request.setAttribute("messages", messages);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
-
+		request.setAttribute("startDate", startDate);
+		request.setAttribute("endDate", endDate);
 
 		//船を送り返す
 		request.getRequestDispatcher("/top.jsp").forward(request, response);

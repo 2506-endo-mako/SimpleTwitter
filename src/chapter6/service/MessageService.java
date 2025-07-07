@@ -4,6 +4,8 @@ import static chapter6.utils.CloseableUtil.*;
 import static chapter6.utils.DBUtil.*;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -156,7 +158,7 @@ public class MessageService {
 	/*
 	 * selectの引数にString型のuserIdを追加
 	 */
-	public List<UserMessage> select(String userId, String startDate,String endDate) {
+	public List<UserMessage> select(String userId, String startDate, String endDate) {
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
@@ -167,6 +169,27 @@ public class MessageService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
+
+			//もしstartDateに値があったらその値 + " 00:00:00"をDaoに渡したい
+			//null→isEmptyに変更(jspでvalueを表示できるようにしたところ${　　}nullじゃ値があると認識されたため変更した)
+			if (!StringUtils.isEmpty(startDate)) {
+				startDate = startDate + " 00:00:00";
+			} else {
+				startDate = " 2025/06/01 00:00:00";
+			}
+
+			//もしendtDateに値があったらその値 + " 23:59:59"をDaoに渡したい
+			if (!StringUtils.isEmpty(endDate)) {
+				endDate = endDate + " 23:59:59";
+			} else {
+				//変数dateを宣言して、フォーマット変換してる
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+				//変数endにsdfからfomatメソッドで引数dateを渡したものを代入してる
+				endDate = sdf.format(date);
+			}
+			//※入力の有無を判定し開始と終了の日時を引数に設定
 
 			/*
 			 * idをnullで初期化
