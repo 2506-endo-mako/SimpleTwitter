@@ -64,7 +64,7 @@ public class MessageService {
 
 	//★つぶやきの削除
 	//DeleatMessageSrvletから呼び出されるdeleatメソッド
-	public void deleat(int id) {
+	public void deleate(int id) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -75,7 +75,7 @@ public class MessageService {
 		try {
 			connection = getConnection();
 
-			new MessageDao().deleat(connection, id);
+			new MessageDao().deleate(connection, id);
 			commit(connection);
 
 			return;

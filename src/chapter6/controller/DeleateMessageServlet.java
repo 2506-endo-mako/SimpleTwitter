@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
 
-@WebServlet(urlPatterns = { "/deleatMessage" })
-public class DeleatMessageServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/deleateMessage" })
+public class DeleateMessageServlet extends HttpServlet {
 
 	/**
 	* ロガーインスタンスの生成
@@ -24,7 +24,7 @@ public class DeleatMessageServlet extends HttpServlet {
 	* デフォルトコンストラクタ
 	* アプリケーションの初期化を実施する。
 	*/
-	public DeleatMessageServlet() {
+	public DeleateMessageServlet() {
 		InitApplication application = InitApplication.getInstance();
 		application.init();
 
@@ -49,7 +49,7 @@ public class DeleatMessageServlet extends HttpServlet {
 		//サービスを呼び出すdeleatメソッドの引数に、
 		//リクエストの情報からmessagesテーブルにあるIDを取ったものを入れる
 		//戻り値が無いから変数はいらない
-		new MessageService().deleat(id);
+		new MessageService().deleate(id);
 
 		//トップ画面にリダイレクトする
 		response.sendRedirect("./");

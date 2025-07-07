@@ -94,7 +94,7 @@ public List<UserComment> select(Connection connection, Integer id, int num) {
 				comment.setCreatedDate(rs.getTimestamp("created_date"));
 
 				//messageに詰め終わったらmessages(list)に入れる
-				 comments.add( comment);
+				 comments.add(comment);
 			}
 			return  comments;
 		} finally {

@@ -83,28 +83,28 @@ public class CommentService {
 				id = Integer.parseInt(userId);
 			}
 
-		/*
-		 * messageDao.selectに引数としてInteger型のidを追加
-		 * idがnullだったら全件取得する
-		 * idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
-		 */
-		List<UserComment> comments = new UserCommentDao().select(connection, id, LIMIT_NUM);
-		commit(connection);
+			/*
+			 * messageDao.selectに引数としてInteger型のidを追加
+			 * idがnullだったら全件取得する
+			 * idがnull以外だったら、その値に対応するユーザーIDの投稿を取得する
+			 */
+			List<UserComment> comments = new UserCommentDao().select(connection, id, LIMIT_NUM);
+			commit(connection);
 
-		return comments;
-	} catch (RuntimeException e) {
-		rollback(connection);
-		log.log(Level.SEVERE, new Object() {
-		}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-		throw e;
-	} catch (Error e) {
-		rollback(connection);
-		log.log(Level.SEVERE, new Object() {
-		}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
-		throw e;
-	} finally {
-		close(connection);
+			return comments;
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw e;
+		} finally {
+			close(connection);
+		}
 	}
-}
 
 }

@@ -48,8 +48,7 @@ public class CommentServlet extends HttpServlet {
 				}.getClass().getEnclosingMethod().getName());
 
 		//変数sessionを宣言してる
-		HttpSession session = request.getSession();
-		//List<String> errorMessages = new ArrayList<String>();
+		HttpSession session = request.getSession();;
 		//jsp(リクエスト)から値を取得している
 		String text = request.getParameter("text");
 		int messageId = Integer.parseInt(request.getParameter("message_id"));
@@ -70,7 +69,6 @@ public class CommentServlet extends HttpServlet {
 
 		User user = (User) session.getAttribute("loginUser");
 		comment.setUserId(user.getId());
-
 
 		new CommentService().insert(comment);
 		response.sendRedirect("./");

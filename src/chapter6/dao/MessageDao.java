@@ -71,7 +71,7 @@ public class MessageDao {
 	}
 
 	//★つぶやきの削除
-	public void deleat(Connection connection, int id) {
+	public void deleate(Connection connection, int id) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
