@@ -160,12 +160,12 @@
 
 				<!-- ログインしていなかったら表示しない -->
 				<c:if test="${ not empty loginUser }">
-						<!-- ★返信ボタンとテキストエリア -->
-						<form action="comment" method="post">
-							<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out value="${comment.text}" /></textarea></pre>
-							<input name="message_id" value="${message.id}" id="id" type="hidden" />
-							<input type="submit" value="返信" />
-						</form>
+					<!-- ★返信ボタンとテキストエリア -->
+					<form action="comment" method="post">
+						<textarea name="text" cols="35" rows="5" id="edit"><c:out value="${comment.text}" /></textarea>
+						<input name="message_id" value="${message.id}" id="id" type="hidden" />
+						<input type="submit" value="返信" />
+					</form>
 				</c:if>
 				<br>
 			</c:forEach>

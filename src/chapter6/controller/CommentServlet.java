@@ -56,9 +56,9 @@ public class CommentServlet extends HttpServlet {
 		//下記のisvalidメソッドで1つでもエラーになったらここに入る
 		List<String> errorMessages = new ArrayList<String>();
 		if (!isValid(text, errorMessages)) {
-			request.setAttribute("errorMessages", errorMessages);
+			session.setAttribute("errorMessages", errorMessages);
 			//編集画面にフォワードする(船を送り返す)
-			request.getRequestDispatcher("top.jsp").forward(request, response);
+			response.sendRedirect("./");
 			return;
 		}
 

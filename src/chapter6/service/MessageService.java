@@ -173,14 +173,14 @@ public class MessageService {
 			//もしstartDateに値があったらその値 + " 00:00:00"をDaoに渡したい
 			//null→isEmptyに変更(jspでvalueを表示できるようにしたところ${　　}nullじゃ値があると認識されたため変更した)
 			if (!StringUtils.isEmpty(startDate)) {
-				startDate = startDate + " 00:00:00";
+				startDate += " 00:00:00";
 			} else {
 				startDate = " 2025/06/01 00:00:00";
 			}
 
 			//もしendtDateに値があったらその値 + " 23:59:59"をDaoに渡したい
 			if (!StringUtils.isEmpty(endDate)) {
-				endDate = endDate + " 23:59:59";
+				endDate += " 23:59:59";
 			} else {
 				//変数dateを宣言して、フォーマット変換してる
 				Date date = new Date();
