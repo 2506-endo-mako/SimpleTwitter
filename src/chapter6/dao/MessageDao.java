@@ -71,6 +71,7 @@ public class MessageDao {
 	}
 
 	//★つぶやきの削除
+	//Connection型のconnectionとint型のidという箱を作る
 	public void deleate(Connection connection, int id) {
 
 		log.info(new Object() {
@@ -80,12 +81,13 @@ public class MessageDao {
 
 		PreparedStatement ps = null;
 		try {
+			//下記のsql文でmessagesテーブルのidを削除できる
 			String sql = "DELETE FROM messages WHERE id = ?";
 			//箱作る
 			ps = connection.prepareStatement(sql);
 			//セットする
 			ps.setInt(1, id);
-			//実行する
+			//実行する→削除する（selectじゃないからUpdate）
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -116,11 +118,13 @@ public class MessageDao {
 			ResultSet rs = ps.executeQuery();
 
 			//ResultSet型から、List<Message>型に変換するメソッドを呼ぶ(toMessages)
+			//戻り値として、messagesテーブルのidとtext情報を持ってかえりたいからlist状にする
 			List<Message> messages = toMessages(rs);
 			//message型で返してあげたい
 			if (messages.isEmpty()) {
 				return null;
 			} else {
+				//messagesという変数の0番目はid？？
 				return messages.get(0);
 			}
 		} catch (SQLException e) {

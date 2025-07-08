@@ -114,25 +114,31 @@
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
 				</div>
-
 				<!--条件分岐でfalseだったらボタンは非表示にしたい→formの外へ-->
+				<!-- messgeテーブルのuserIdとloginUserテーブルのidを比較 -->
 				<c:if test="${message.userId == loginUser.id}">
-
 					<!-- ★つぶやきの削除ボタン -->
 					<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
+					<!-- 削除を登録したいのでdoPost -->
+					<!-- ServletのdeleateMessageのurlに値を渡す -->
 					<form action="deleateMessage" method="post">
+						<!-- idという名前で渡す→messageテーブルのidを（value）→hidden属性（隠した状態で） -->
 						<input name="id" value="${message.id}" id="id" type="hidden" />
+						<!-- submit→ボタン　value→表示したい文字列 -->
 						<input type="submit" value="削除" />
 					</form>
 				</c:if>
 				<!-- つぶやいた人と、ログインしている人のidが一緒かどうか -->
+				<!-- messgeテーブルのuserIdとloginUserテーブルのidを比較 -->
 				<c:if test="${message.userId == loginUser.id}">
 
 					<!-- ★つぶやきの編集ボタン -->
 					<!-- action…どのServletにいきたいか　method…GetPostを指定 -->
 					<form action="edit" method="get">
 						<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
+						<!-- idという名前でmessagesテーブルのidを渡す→hidden属性で -->
 						<input name="id" value="${message.id}" id="id" type="hidden" />
+						<!-- ボタン　編集という文字列を表示 -->
 						<input type="submit" value="編集" />
 					</form>
 				</c:if>

@@ -33,9 +33,10 @@ public class DeleateMessageServlet extends HttpServlet {
 	//★つぶやきの削除
 
 	@Override
+	//DBから削除するだけなので戻り値は無し
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		//ログ（記録をとる）
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
@@ -46,12 +47,12 @@ public class DeleateMessageServlet extends HttpServlet {
 		int id = (Integer.parseInt(request.getParameter("id")));
 
 		// request→一回だけ保持される　session→一定期間保持される
-		//サービスを呼び出すdeleatメソッドの引数に、
+		//サービスを呼び出すdeleateメソッドの引数に、
 		//リクエストの情報からmessagesテーブルにあるIDを取ったものを入れる
 		//戻り値が無いから変数はいらない
 		new MessageService().deleate(id);
 
-		//トップ画面にリダイレクトする
+		//トップ画面にリダイレクトする　DeleateMessagesServletからtop.jspにいくからリダイレクト
 		response.sendRedirect("./");
 
 	}

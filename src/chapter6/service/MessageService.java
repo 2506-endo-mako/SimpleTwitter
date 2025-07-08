@@ -70,16 +70,18 @@ public class MessageService {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
-
+		//Connection型のconnection→DBと繋げる
 		Connection connection = null;
 		try {
 			connection = getConnection();
-
+			//connectionとidをDaoに渡す
 			new MessageDao().deleate(connection, id);
+			//返ってきた値は下記のcommitで実行される
 			commit(connection);
-
 			return;
+			//Daoで処理がかかりすぎている時にこのRuntimeExceptionが渡される（エラー）
 		} catch (RuntimeException e) {
+			//rollback→エラーが出た時に元の状態に戻す
 			rollback(connection);
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);

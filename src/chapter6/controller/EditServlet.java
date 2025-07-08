@@ -54,8 +54,10 @@ public class EditServlet extends HttpServlet {
 		//→型変換の前　isEmpty　どちらが幅広くチェックできるか
 
 		//String型に→複数使用するものは変数に入れる
+		//jspから"id"で情報を取得
 		String messageId = request.getParameter("id");
 
+		//もし
 		if (messageId.matches("^[^0-9]+$") || StringUtils.isEmpty(messageId)) {
 
 			HttpSession session = request.getSession();
@@ -67,7 +69,7 @@ public class EditServlet extends HttpServlet {
 			response.sendRedirect("./");
 			return;
 		}
-
+		//jspからidを受け取ったがString型なのでint型に型変換
 		int id = Integer.parseInt(messageId);
 
 		// request→一回だけ保持される　session→一定期間保持される

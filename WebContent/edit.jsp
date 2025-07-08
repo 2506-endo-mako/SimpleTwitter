@@ -38,19 +38,21 @@
 		<!--formタグの中で不要なところと変更するところあり-->
 
 		<!--編集フォームを作る(form)-->
+		<!-- 編集フォームを表示させたい→doPost -->
 		<form action="edit" method="post">
 
 			<!--フォームの要素の見出しを表すタグ(label)-->
 			<label for="name">つぶやきの編集</label> <br />
+			<!-- idという名前でmessagesテーブルのidをhidden属性で渡す -->
 			<input name="id" value="${message.id}" id="id" type="hidden" />
 
 			<!--ユーザーが大量の自由記述テキストを入力できる(textarea)-->
-			<!--valueで指定した値を出力する(c:out)-->
+			<!--valueで指定した値を出力する(c:out)　messagesテーブルのtextを出力-->
 			<pre><textarea name="text" cols="35" rows="5" id="edit"><c:out value="${message.text}" /></textarea></pre>
 			<!--改行する(br)-->
+			<br />
 			<!--タグで作成したフォームの中でテキスト入力欄やボタンなどの部品を作成する要素(input)-->
 			<!--リンク先を指定する属性(a href) -->
-			<br />
 			<input type="submit" value="更新" /><br /><a href="./">戻る</a>
 		</form>
 		<!--単独では意味を持たない汎用的なブロックレベル要素をグループ化するためのタグ(div)-->
